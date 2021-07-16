@@ -26,8 +26,6 @@ const ErrorLocation = document.getElementById("ErrorLocation");
 const ErrorRules = document.getElementById("ErrorRules");
 
 // Implémenter entrées du formulaire #2 /Ajouter validation ou messages d'erreur #3 /Ajouter confirmation quand envoie réussi #4
-let x = new Boolean("false");
-let y = new Boolean("false");
 
 // submit
 document.getElementById("reserve-form").addEventListener("submit", validate);
@@ -72,13 +70,12 @@ function validateLocation() {
     const validityState = input[i].checked;
     if (validityState == false) {
       ErrorLocation.style.display = "block";
-      x = false;
     } else {
       ErrorLocation.style.display = "none";
-      x = true;
-      break;
+      return true;
     }
   }
+  return false;
 }
 // Implémenter entrées du formulaire #2 /Ajouter validation ou messages d'erreur #3 / Test conditions d'utilisation
 function validateRules() {
@@ -86,19 +83,19 @@ function validateRules() {
   const validityState = input.checked;
   if (validityState == false) {
     ErrorRules.style.display = "block";
-    y = false;
   } else {
     ErrorRules.style.display = "none";
-    y = true;
+    return true;
   }
+  return false;
 }
 
 // F principal du formulaire on test si location et rules son true avant de fermer le modal , les autres inputs sont testé avant via required
 function validate(ev) {
   ev.preventDefault();
-  validateLocation();
-  validateRules();
-  if (x && y === true) {
+  const location = validateLocation();
+  const rules = validateRules();
+  if (location && rules) {
     validateModal();
   }
 }
